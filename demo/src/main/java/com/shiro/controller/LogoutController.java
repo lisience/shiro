@@ -1,13 +1,20 @@
 package com.shiro.controller;
 
+import com.shiro.constant.TempSid;
 import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.ClientContext;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.apache.oltu.oauth2.as.request.OAuthAuthzRequest;
 import org.apache.oltu.oauth2.as.response.OAuthASResponse;
 import org.apache.oltu.oauth2.client.OAuthClient;
@@ -31,6 +38,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -64,9 +72,9 @@ public class LogoutController {
         String result = resourceResponse.getBody();
         System.out.println(result);*/
 
+    this.post("http://a.zuma.com:8088/client/logout", null);
 
-
-        OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
+        /*OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
         OAuthClientRequest userInfoRequest = new OAuthBearerClientRequest("http://a.zuma.com:8088/client/logout").buildQueryMessage();
 
@@ -75,7 +83,7 @@ public class LogoutController {
         //TODO 返回值
         String result = resourceResponse.getBody();
 
-        System.out.println(result);
+        System.out.println(result);*/
         /*OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
 
 
@@ -105,8 +113,20 @@ public class LogoutController {
     }
 
     public static boolean post(String url, Map<String, String> params) {
-        CloseableHttpClient httpclient = HttpClients.createDefault();
+
+
+        CookieStore cookieStore = new BasicCookieStore();
+        String tempSid = TempSid.sid;
+        BasicClientCookie cookie = new BasicClientCookie("sid", tempSid);
+        cookie.setDomain("a.zuma.com:8088");
+        cookieStore.addCookie(cookie);
+        CloseableHttpClient httpclient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
         HttpPost httpPost = new HttpPost(url);
+
+
+
+        httpPost.addHeader("cookie", "sid=" + tempSid);
+
 
         // 参数处理
         if (params != null && !params.isEmpty()) {
@@ -119,6 +139,7 @@ public class LogoutController {
             }
 
             httpPost.setEntity(new UrlEncodedFormEntity(list, Consts.UTF_8));
+
         }
         // 执行请求
         try {
