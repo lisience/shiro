@@ -1,5 +1,6 @@
 package com.client.dao;
 
+import com.client.constant.TempSid;
 import com.client.storage.SessionStorage;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -70,8 +71,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
         System.out.println("===============doCreate================");
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
-        redisTemplate.opsForValue().set("qqqqq", session, expireTime, TimeUnit.MILLISECONDS);
-
+        TempSid.sid = session.getId().toString();
         redisTemplate.opsForValue().set(session.getId(), session, expireTime, TimeUnit.MILLISECONDS);
         return sessionId;
     }

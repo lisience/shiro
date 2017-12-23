@@ -1,5 +1,6 @@
 package com.client.realm;
 
+import com.client.constant.TempSid;
 import com.client.exception.OAuth2AuthenticationException;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
@@ -83,6 +84,7 @@ public class OAuth2Realm extends AuthorizingRealm {
                     .setClientSecret(clientSecret)
                     .setCode(code)
                     .setRedirectURI(redirectUrl)
+                    .setParameter("tempSid", TempSid.sid)
                     .buildQueryMessage();
 
             OAuthAccessTokenResponse oAuthResponse = oAuthClient.accessToken(accessTokenRequest, OAuth.HttpMethod.POST);
