@@ -1,0 +1,41 @@
+server:
+  port : 8083
+  
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.0.188:3306/zuma_picture_test?characterEncoding=utf-8&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&rewriteBatchedStatements=true
+    username: DEV
+    password: DEVdev123!
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  redis:
+          database: 0
+          host: 192.168.189.132
+          port: 6379
+          #password: zm123456
+          pool:
+            max-active: 8
+            max-wait: 1
+            max-idle: 8
+            min-idle: 0
+          timeout: 0
+
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  typeAliasesPackage: com.shiro.entity
+
+

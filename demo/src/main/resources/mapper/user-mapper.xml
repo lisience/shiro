@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiro.dao.UserMapper">
+    <!-- 用户表 -->
+    <resultMap id="BaseResultMap" type="com.shiro.entity.User">
+        <!-- 字段: [] -->
+        <id column="f_id" property="fId" />
+        <!-- 字段: [用户账户] -->
+        <result column="f_userAccount" property="fUserAccount" />
+        <!-- 字段: [] -->
+        <result column="f_userName" property="fUserName" />
+        <!-- 字段: [] -->
+        <result column="f_passWord" property="fPassWord" />
+        <!-- 字段: [创建时间] -->
+        <result column="f_create_time" property="fCreateTime" />
+        <!-- 字段: [创建人] -->
+        <result column="f_create_userId" property="fCreateUserId" />
+        <!-- 字段: [修改时间] -->
+        <result column="f_update_time" property="fUpdateTime" />
+        <!-- 字段: [修改人] -->
+        <result column="f_update_userId" property="fUpdateUserId" />
+        <!-- 字段: [角色名称] -->
+        <result column="f_role_name" property="roleName" />
+        <result column="f_error_times" property="fErrorTimes" />
+        <!-- 字段: [1男0女] -->
+        <result column="f_sex" property="fSex" />
+        <!-- 字段: [出生时间] -->
+        <result column="f_brithday_time" property="fBrithdayTime" />
+        <!-- 字段: [名族] -->
+        <result column="f_nation" property="fNation" />
+        <!-- 字段: [户口类型 0 本地农村 1外地农村 2本地城镇 3外地城镇] -->
+        <result column="f_population" property="fPopulation" />
+        <!-- 字段: [固定号码] -->
+        <result column="f_tel" property="fTel" />
+        <!-- 字段: [学历 0博士 1硕士 2本科 ] -->
+        <result column="f_educational" property="fEducational" />
+        <!-- 字段: [分机] -->
+        <result column="f_extension" property="fExtension" />
+        <!-- 字段: [手机号] -->
+        <result column="f_phone" property="fPhone" />
+        <!-- 字段: [在职状态 0在职 1离职 2停薪留职] -->
+        <result column="f_payroll" property="fPayroll" />
+        <!-- 字段: [入职时间] -->
+        <result column="f_join_time" property="fJoinTime" />
+        <!-- 字段: [] -->
+        <result column="f_leave_time" property="fLeaveTime" />
+        <!-- 字段: [紧急联系人] -->
+        <result column="f_emergency" property="fEmergency" />
+        <!-- 字段: [紧急联系人电话] -->
+        <result column="f_emergency_tel" property="fEmergencyTel" />
+        <!-- 字段: [部门id] -->
+        <result column="f_department_id" property="fDepartmentId" />
+        <!-- 字段: [岗位id] -->
+        <result column="f_station_id" property="fStationId" />
+        <!-- 字段: [员工属性 0内部人员 1外部人员] -->
+        <result column="f_emplyoeeType" property="fEmplyoeeType" />
+        <!-- 字段: [身份证] -->
+        <result column="f_id_card" property="fIdCard" />
+        <!-- 字段: [籍贯省] -->
+        <result column="f_born_provice" property="fBornProvice" />
+        <!-- 字段: [名称] -->
+        <result column="f_born_District" property="fBornDistrict" />
+        <!-- 字段: [籍贯市] -->
+        <result column="f_born_city" property="fBornCity" />
+        <!-- 字段: [名称] -->
+        <result column="f_born_town" property="fBornTown" />
+        <!-- 字段: [户籍省] -->
+        <result column="f_census_provice" property="fCensusProvice" />
+        <!-- 字段: [名称] -->
+        <result column="f_census_district" property="fCensusDistrict" />
+        <!-- 字段: [户籍市] -->
+        <result column="f_census_city" property="fCensusCity" />
+        <!-- 字段: [名称] -->
+        <result column="f_census_town" property="fCensusTown" />
+        <!-- 字段: [户籍地址] -->
+        <result column="f_census_addr" property="fCensusAddr" />
+        <!-- 字段: [现居住省] -->
+        <result column="f_now_place_provice" property="fNowPlaceProvice" />
+        <!-- 字段: [名称] -->
+        <result column="f_now_place_district" property="fNowDistrict" />
+        <!-- 字段: [先居住市区] -->
+        <result column="f_now_place_city" property="fNowPlaceCity" />
+        <!-- 字段: [名称] -->
+        <result column="f_now_place_town" property="fNowTown" />
+        <!-- 字段: [详细地址] -->
+        <result column="f_addr_detail" property="fAddrDetail" />
+        <!-- 字段: [英语等级] -->
+        <result column="f_english_level" property="fEnglishLevel" />
+        <!-- 字段: [用户头像] -->
+        <result column="f_user_image" property="fUserImage" />
+        <!-- 字段: [用户角色的名称 方便查询] -->
+        <result column="f_role_name" property="fRoleName" />
+        <!-- 字段:[所屬公司] -->
+        <result column="f_company_Id" property="fCompanyId" />
+        <!-- 字段:[所属岗位名] -->
+        <result column="f_PositionName" property="fPositionName" />
+        <!-- 字段:[所属部门名] -->
+        <result column="f_Department" property="fDepartment" />
+        <!-- 字段:[所属公司名] -->
+        <result column="f_company" property="fCompany" />
+        <!-- 字段[籍贯名字] -->
+        <result column="f_born_name" property="fBornName" />
+        <!-- 字段[户籍名字] -->
+        <result column="f_census_name" property="fCensusName" />
+        <!-- 字段[现居住地名字] -->
+        <result column="f_now_name" property="fNowName" />
+        <!-- 字段[国籍] -->
+        <result column="f_nationality" property="fNationality" />
+        <!-- 字段[开户银行] -->
+        <result column="f_deposit_bank" property="fDepositBank" />
+        <!-- 字段[银行卡号] -->
+        <result column="f_card_numbers" property="fCardNumbers" />
+        <!-- 字段[保密信息] -->
+        <result column="f_confidential" property="fConfidential" />
+        <!-- 字段[考勤卡号] -->
+        <result column="CardNo" property="fCardNo" />
+        <result column="f_deposit_bank_point" property="fDepositBankPoint" />
+        <result column="startDay" property="startDay" />
+        <result column="endByDay" property="endByDay" />
+        <result column="startAge" property="startAge" />
+        <result column="endAge" property="endAge" />
+        <result column="startJoinTime" property="startJoinTime" />
+        <result column="endJoinTime" property="endJoinTime" />
+        <result column="PositionStr" property="PositionStr" />
+
+    </resultMap>
+</mapper>

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.client.dao.ZmSitePageLogMapper" >
+  <resultMap id="BaseResultMap" type="com.client.entity.ZmSitePageLogBean" >
+    <id column="f_id" property="fId"/>
+    <result column="f_zm_site_page_id" property="fZmSitePageId"/>
+    <result column="f_zm_site_id" property="fZmSiteId"/>
+    <result column="f_page_id" property="fPageId"/>
+    <result column="f_page_name" property="fPageName"/>
+    <result column="f_page_type" property="fPageType"/>
+    <result column="f_page_domain" property="fPageDomain"/>
+    <result column="f_sec_domain" property="fSecDomain"/>
+    <result column="f_site_state" property="fSiteState"/>
+    <result column="f_pc_data" property="fPcData"/>
+    <result column="f_phone_data" property="fPhoneData"/>
+    <result column="f_update_time" property="fUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="f_title" property="fTitle"/>
+    <result column="f_description" property="fDescription"/>
+    <result column="f_keywords" property="fKeywords"/>
+    <result column="f_type" property="fType"/>
+    <result column="f_login_limit" property="fLoginLimit"/>
+    <result column="f_password_limit" property="fPasswordLimit"/>
+    <result column="f_url" property="fUrl"/>
+    <result column="f_save_type" property="fSaveType"/>
+    <result column="f_sort" property="fSort"/>
+    <result column="f_is_in_navigation" property="fIsInNavigation"/>
+    <result column="f_is_home" property="fIsHome"/>
+    <result column="f_is_show_go_head" property="fIsShowGoHead"/>
+    <result column="f_is_show_go_foot" property="fIsShowGoFoot"/>
+    <result column="f_templet_id" property="fTempletId"/>
+    <result column="f_parent_id" property="fParentId"/>
+    <result column="f_state" property="fState"/>
+    <result column="f_create_id" property="fCreateId"/>
+    <result column="f_create_type" property="fCreateType"/>
+    <result column="f_create_time" property="fCreateTime" jdbcType="TIMESTAMP" />
+    <result column="f_update_id" property="fUpdateId"/>
+    <result column="f_update_type" property="fUpdateType"/>
+    <result column="f_html" property="fHtml" jdbcType="LONGVARCHAR" />
+    <result column="f_comment" property="fComment" />
+    <result column="f_page_config" property="fPageConfig" />
+    <result column="f_bg_html" property="fBgHtml" />
+    <result column="f_site_version" property="fSiteVersion" />
+    <result column="f_site_page_version" property="fSitePageVersion" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    f_id, f_zm_site_page_id, f_zm_site_id, f_page_id, f_page_name, f_page_type, f_page_domain, 
+    f_sec_domain, f_site_state, f_pc_data, f_phone_data, f_update_time, f_title, f_description, 
+    f_keywords, f_type, f_login_limit, f_password_limit, f_url, f_save_type, f_sort, 
+    f_is_in_navigation, f_is_home, f_is_show_go_head, f_is_show_go_foot, f_templet_id, 
+    f_parent_id, f_state, f_create_id, f_create_type, f_create_time, f_update_id, f_update_type,
+    f_html, f_page_config, f_bg_html, f_site_version, f_site_page_version 
+  </sql>
+  <insert id="insertSelective" parameterType="com.client.entity.ZmSitePageLogBean" >
+    insert into zm_site_page_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="fId != null" >
+        f_id,
+      </if>
+      <if test="fZmSitePageId != null" >
+        f_zm_site_page_id,
+      </if>
+      <if test="fZmSiteId != null" >
+        f_zm_site_id,
+      </if>
+      <if test="fPageId != null" >
+        f_page_id,
+      </if>
+      <if test="fPageName != null" >
+        f_page_name,
+      </if>
+      <if test="fPageType != null" >
+        f_page_type,
+      </if>
+      <if test="fPageDomain != null" >
+        f_page_domain,
+      </if>
+      <if test="fSecDomain != null" >
+        f_sec_domain,
+      </if>
+      <if test="fSiteState != null" >
+        f_site_state,
+      </if>
+      <if test="fPcData != null" >
+        f_pc_data,
+      </if>
+      <if test="fPhoneData != null" >
+        f_phone_data,
+      </if>
+      <if test="fUpdateTime != null" >
+        f_update_time,
+      </if>
+      <if test="fTitle != null" >
+        f_title,
+      </if>
+      <if test="fDescription != null" >
+        f_description,
+      </if>
+      <if test="fKeywords != null" >
+        f_keywords,
+      </if>
+      <if test="fType != null" >
+        f_type,
+      </if>
+      <if test="fLoginLimit != null" >
+        f_login_limit,
+      </if>
+      <if test="fPasswordLimit != null" >
+        f_password_limit,
+      </if>
+      <if test="fUrl != null" >
+        f_url,
+      </if>
+      <if test="fSaveType != null" >
+        f_save_type,
+      </if>
+      <if test="fSort != null" >
+        f_sort,
+      </if>
+      <if test="fIsInNavigation != null" >
+        f_is_in_navigation,
+      </if>
+      <if test="fIsHome != null" >
+        f_is_home,
+      </if>
+      <if test="fIsShowGoHead != null" >
+        f_is_show_go_head,
+      </if>
+      <if test="fIsShowGoFoot != null" >
+        f_is_show_go_foot,
+      </if>
+      <if test="fTempletId != null" >
+        f_templet_id,
+      </if>
+      <if test="fParentId != null" >
+        f_parent_id,
+      </if>
+      <if test="fState != null" >
+        f_state,
+      </if>
+      <if test="fCreateId != null" >
+        f_create_id,
+      </if>
+      <if test="fCreateType != null" >
+        f_create_type,
+      </if>
+      <if test="fCreateTime != null" >
+        f_create_time,
+      </if>
+      <if test="fUpdateId != null" >
+        f_update_id,
+      </if>
+      <if test="fUpdateType != null" >
+        f_update_type,
+      </if>
+      <if test="fHtml != null" >
+        f_html,
+      </if>
+      <if test="fPageConfig != null" >
+        f_page_config,
+      </if>
+      <if test="fBgHtml != null" >
+        f_bg_html,
+      </if>
+      <if test="fSiteVersion != null" >
+        f_site_version,
+      </if>
+      <if test="fSitePageVersion != null" >
+        f_site_page_version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="fId != null" >
+        #{fId},
+      </if>
+      <if test="fZmSitePageId != null" >
+        #{fZmSitePageId},
+      </if>
+      <if test="fZmSiteId != null" >
+        #{fZmSiteId},
+      </if>
+      <if test="fPageId != null" >
+        #{fPageId},
+      </if>
+      <if test="fPageName != null" >
+        #{fPageName},
+      </if>
+      <if test="fPageType != null" >
+        #{fPageType},
+      </if>
+      <if test="fPageDomain != null" >
+        #{fPageDomain},
+      </if>
+      <if test="fSecDomain != null" >
+        #{fSecDomain},
+      </if>
+      <if test="fSiteState != null" >
+        #{fSiteState},
+      </if>
+      <if test="fPcData != null" >
+        #{fPcData},
+      </if>
+      <if test="fPhoneData != null" >
+        #{fPhoneData},
+      </if>
+      <if test="fUpdateTime != null" >
+        #{fUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fTitle != null" >
+        #{fTitle},
+      </if>
+      <if test="fDescription != null" >
+        #{fDescription},
+      </if>
+      <if test="fKeywords != null" >
+        #{fKeywords},
+      </if>
+      <if test="fType != null" >
+        #{fType},
+      </if>
+      <if test="fLoginLimit != null" >
+        #{fLoginLimit},
+      </if>
+      <if test="fPasswordLimit != null" >
+        #{fPasswordLimit},
+      </if>
+      <if test="fUrl != null" >
+        #{fUrl},
+      </if>
+      <if test="fSaveType != null" >
+        #{fSaveType},
+      </if>
+      <if test="fSort != null" >
+        #{fSort},
+      </if>
+      <if test="fIsInNavigation != null" >
+        #{fIsInNavigation},
+      </if>
+      <if test="fIsHome != null" >
+        #{fIsHome},
+      </if>
+      <if test="fIsShowGoHead != null" >
+        #{fIsShowGoHead},
+      </if>
+      <if test="fIsShowGoFoot != null" >
+        #{fIsShowGoFoot},
+      </if>
+      <if test="fTempletId != null" >
+        #{fTempletId},
+      </if>
+      <if test="fParentId != null" >
+        #{fParentId},
+      </if>
+      <if test="fState != null" >
+        #{fState},
+      </if>
+      <if test="fCreateId != null" >
+        #{fCreateId},
+      </if>
+      <if test="fCreateType != null" >
+        #{fCreateType},
+      </if>
+      <if test="fCreateTime != null" >
+        #{fCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fUpdateId != null" >
+        #{fUpdateId},
+      </if>
+      <if test="fUpdateType != null" >
+        #{fUpdateType},
+      </if>
+      <if test="fHtml != null" >
+        #{fHtml,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="fPageConfig != null" >
+        #{fPageConfig},
+      </if>
+      <if test="fBgHtml != null" >
+        #{fBgHtml},
+      </if>
+      <if test="fSiteVersion != null" >
+        #{fSiteVersion},
+      </if>
+      <if test="fSitePageVersion != null" >
+        #{fSitePageVersion},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.client.entity.ZmSitePageLogBean" >
+    update zm_site_page_log
+    <set >
+      <if test="fZmSitePageId != null" >
+        f_zm_site_page_id = #{fZmSitePageId},
+      </if>
+      <if test="fZmSiteId != null" >
+        f_zm_site_id = #{fZmSiteId},
+      </if>
+      <if test="fPageId != null" >
+        f_page_id = #{fPageId},
+      </if>
+      <if test="fPageName != null" >
+        f_page_name = #{fPageName},
+      </if>
+      <if test="fPageType != null" >
+        f_page_type = #{fPageType},
+      </if>
+      <if test="fPageDomain != null" >
+        f_page_domain = #{fPageDomain},
+      </if>
+      <if test="fSecDomain != null" >
+        f_sec_domain = #{fSecDomain},
+      </if>
+      <if test="fSiteState != null" >
+        f_site_state = #{fSiteState},
+      </if>
+      <if test="fPcData != null" >
+        f_pc_data = #{fPcData},
+      </if>
+      <if test="fPhoneData != null" >
+        f_phone_data = #{fPhoneData},
+      </if>
+      <if test="fUpdateTime != null" >
+        f_update_time = #{fUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fTitle != null" >
+        f_title = #{fTitle},
+      </if>
+      <if test="fDescription != null" >
+        f_description = #{fDescription},
+      </if>
+      <if test="fKeywords != null" >
+        f_keywords = #{fKeywords},
+      </if>
+      <if test="fType != null" >
+        f_type = #{fType},
+      </if>
+      <if test="fLoginLimit != null" >
+        f_login_limit = #{fLoginLimit},
+      </if>
+      <if test="fPasswordLimit != null" >
+        f_password_limit = #{fPasswordLimit},
+      </if>
+      <if test="fUrl != null" >
+        f_url = #{fUrl},
+      </if>
+      <if test="fSaveType != null" >
+        f_save_type = #{fSaveType},
+      </if>
+      <if test="fSort != null" >
+        f_sort = #{fSort},
+      </if>
+      <if test="fIsInNavigation != null" >
+        f_is_in_navigation = #{fIsInNavigation},
+      </if>
+      <if test="fIsHome != null" >
+        f_is_home = #{fIsHome},
+      </if>
+      <if test="fIsShowGoHead != null" >
+        f_is_show_go_head = #{fIsShowGoHead},
+      </if>
+      <if test="fIsShowGoFoot != null" >
+        f_is_show_go_foot = #{fIsShowGoFoot},
+      </if>
+      <if test="fTempletId != null" >
+        f_templet_id = #{fTempletId},
+      </if>
+      <if test="fParentId != null" >
+        f_parent_id = #{fParentId},
+      </if>
+      <if test="fState != null" >
+        f_state = #{fState},
+      </if>
+      <if test="fCreateId != null" >
+        f_create_id = #{fCreateId},
+      </if>
+      <if test="fCreateType != null" >
+        f_create_type = #{fCreateType},
+      </if>
+      <if test="fCreateTime != null" >
+        f_create_time = #{fCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fUpdateId != null" >
+        f_update_id = #{fUpdateId},
+      </if>
+      <if test="fUpdateType != null" >
+        f_update_type = #{fUpdateType},
+      </if>
+      <if test="fHtml != null" >
+        f_html = #{fHtml,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="fPageConfig != null" >
+        f_page_config = #{fPageConfig},
+      </if>
+      <if test="fBgHtml != null" >
+        f_bg_html = #{fBgHtml},
+      </if>
+      <if test="fSiteVersion != null" >
+        f_site_version = #{fSiteVersion},
+      </if>
+      <if test="fSitePageVersion != null" >
+        f_site_page_version = #{fSitePageVersion},
+      </if>
+    </set>
+    where f_id = #{fId}
+  </update>
+  
+  <insert id="insertList" parameterType="java.util.List">
+    insert into zm_site_page_log (f_id, f_zm_site_id, f_zm_site_page_id, f_page_id, f_page_name, f_page_type, f_page_domain, f_sec_domain, 
+    f_site_state, f_pc_data, f_phone_data, f_update_time, f_title, f_description, f_keywords, 
+    f_type, f_login_limit, f_password_limit, f_url, f_save_type, f_sort, f_is_in_navigation, 
+    f_is_home, f_is_show_go_head, f_is_show_go_foot, f_templet_id, f_state, f_parent_id, 
+    f_create_id, f_create_type, f_create_time, f_update_id, f_update_type, f_html, f_page_config, f_bg_html, f_site_version, f_site_page_version)
+     values  
+    <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.fId}, #{item.fZmSiteId}, #{item.fZmSitePageId}, #{item.fPageId}, #{item.fPageName}, #{item.fPageType}, #{item.fPageDomain}, #{item.fSecDomain},
+        #{item.fSiteState}, #{item.fPcData}, #{item.fPhoneData}, #{item.fUpdateTime}, #{item.fTitle}, #{item.fDescription},
+        #{item.fKeywords}, #{item.fType}, #{item.fLoginLimit}, #{item.fPasswordLimit}, #{item.fUrl}, #{item.fSaveType},
+        #{item.fSort}, #{item.fIsInNavigation}, #{item.fIsHome}, #{item.fIsShowGoHead}, #{item.fIsShowGoFoot}, #{item.fTempletId},
+        #{item.fState}, #{item.fParentId}, #{item.fCreateId}, #{item.fCreateType}, #{item.fCreateTime}, #{item.fUpdateId},
+        #{item.fUpdateType}, #{item.fHtml}, #{item.fPageConfig}, #{item.fBgHtml}, #{item.fSiteVersion}, #{item.fSitePageVersion})  
+    </foreach>  
+  </insert>
+  
+</mapper>
