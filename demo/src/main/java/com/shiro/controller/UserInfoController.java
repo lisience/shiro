@@ -1,6 +1,6 @@
 package com.shiro.controller;
 
-import com.shiro.constant.Constants;
+import com.shiro.constant.AuthConst;
 import com.shiro.entity.User;
 import org.apache.commons.lang.StringUtils;
 import org.apache.oltu.oauth2.common.OAuth;
@@ -48,7 +48,7 @@ public class UserInfoController {
                 // 如果不存在/过期了，返回未验证错误，需重新验证
                 OAuthResponse oauthResponse = OAuthRSResponse
                         .errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
-                        .setRealm(Constants.RESOURCE_SERVER_NAME)
+                        .setRealm(AuthConst.RESOURCE_SERVER_NAME)
                         .setError(OAuthError.ResourceResponse.INVALID_TOKEN)
                         .buildHeaderMessage();
 
@@ -67,7 +67,7 @@ public class UserInfoController {
             if (OAuthUtils.isEmpty(errorCode)) {
                 OAuthResponse oauthResponse = OAuthRSResponse
                         .errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
-                        .setRealm(Constants.RESOURCE_SERVER_NAME)
+                        .setRealm(AuthConst.RESOURCE_SERVER_NAME)
                         .buildHeaderMessage();
 
                 HttpHeaders headers = new HttpHeaders();
@@ -77,7 +77,7 @@ public class UserInfoController {
 
             OAuthResponse oauthResponse = OAuthRSResponse
                     .errorResponse(HttpServletResponse.SC_UNAUTHORIZED)
-                    .setRealm(Constants.RESOURCE_SERVER_NAME)
+                    .setRealm(AuthConst.RESOURCE_SERVER_NAME)
                     .setError(e.getError())
                     .setErrorDescription(e.getDescription())
                     .setErrorUri(e.getUri())

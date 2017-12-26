@@ -1,18 +1,10 @@
 package com.shiro.dao;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -39,6 +31,16 @@ public class RedisSessionDao extends AbstractSessionDAO {
         return redisTemplate;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    private String prefix = "server:";
+
     @Autowired(required = false)
     public void setRedisTemplate(RedisTemplate redisTemplate) {
         RedisSerializer stringSerializer = new StringRedisSerializer();
@@ -53,6 +55,16 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
 
     private long expireTime = 1200000;
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    private String serviceName = "service";
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -77,7 +89,9 @@ public class RedisSessionDao extends AbstractSessionDAO {
         System.out.println("===============doCreate================");
         Serializable sessionId = this.generateSessionId(session);
         this.assignSessionId(session, sessionId);
-        redisTemplate.opsForValue().set(session.getId(), session, expireTime, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForHash().put(prefix + session.getId(), serviceName, session);
+        redisTemplate.expire(prefix + session.getId(), expireTime, TimeUnit.MILLISECONDS);
+//        redisTemplate.opsForValue().set(prefix + session.getId(), session, expireTime, TimeUnit.MILLISECONDS);
         return sessionId;
     }
 
@@ -87,7 +101,8 @@ public class RedisSessionDao extends AbstractSessionDAO {
         if (sessionId == null) {
             return null;
         }
-        return (Session) redisTemplate.opsForValue().get(sessionId);
+        return (Session)redisTemplate.opsForHash().get(prefix + sessionId, serviceName);
+        //return (Session) redisTemplate.opsForValue().get(prefix + sessionId);
     }
 
     @Override
@@ -97,8 +112,9 @@ public class RedisSessionDao extends AbstractSessionDAO {
             return;
         }
         session.setTimeout(expireTime);
-        session.setAttribute("clientKey", "qqqqqqq");
-        redisTemplate.opsForValue().set(session.getId(), session, expireTime, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForHash().put(prefix + session.getId(), serviceName, session);
+        redisTemplate.expire(prefix + session.getId(), expireTime, TimeUnit.MILLISECONDS);
+//        redisTemplate.opsForValue().set(prefix + session.getId(), session, expireTime, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -107,7 +123,8 @@ public class RedisSessionDao extends AbstractSessionDAO {
         if (null == session) {
             return;
         }
-        redisTemplate.opsForValue().getOperations().delete(session.getId());
+        redisTemplate.delete(prefix + session.getId());
+//        redisTemplate.opsForValue().getOperations().delete(prefix + session.getId());
     }
 
     @Override
@@ -115,6 +132,4 @@ public class RedisSessionDao extends AbstractSessionDAO {
         System.out.println("==============getActiveSessions=================");
         return redisTemplate.keys("*");
     }
-
-
 }

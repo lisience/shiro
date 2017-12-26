@@ -16,8 +16,10 @@ import org.apache.oltu.oauth2.common.message.types.ResponseType;
 import org.apache.oltu.oauth2.common.utils.OAuthUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +36,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>User: Zhang Kaitao
@@ -47,6 +51,8 @@ public class AuthorizeController {
    /* @Autowired
     private StringRedisTemplate stringRedisTemplate;
 */
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 /*    @Autowired
     private OAuthService oAuthService;
@@ -81,14 +87,11 @@ public class AuthorizeController {
             //如果用户没有登录，跳转到登陆页面
             if(!subject.isAuthenticated()) {
                 if(!login(subject, request)) {//登录失败时跳转到登陆页面
-                    //servletResponse.sendRedirect("http://127.0.0.1:8083/index.html");
                     return "OAuthLogin";
                 }
             }
-
             String username = (String)subject.getPrincipal();
 
-            subject.getSession(false).setAttribute("clientUrl", "http://192.168.0.134:8087/manage-api");
             //生成授权码
             String authorizationCode = null;
             //responseType目前仅支持CODE，另外还有TOKEN
@@ -99,7 +102,10 @@ public class AuthorizeController {
                 //stringRedisTemplate.opsForValue().set(authorizationCode, username);
                 //oAuthService.addAuthCode(authorizationCode, username);
             }
-
+            Session session = subject.getSession(false);
+            String authKey = "authCode:" + session.getId();
+            redisTemplate.opsForList().rightPush(authKey, authorizationCode);
+            redisTemplate.expire(authKey, 3600000L, TimeUnit.MILLISECONDS);
             //进行OAuth响应构建
             OAuthASResponse.OAuthAuthorizationResponseBuilder builder =
                     OAuthASResponse.authorizationResponse(request, HttpServletResponse.SC_FOUND);

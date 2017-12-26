@@ -1,6 +1,5 @@
 package com.client.realm;
 
-import com.client.constant.TempSid;
 import com.client.exception.OAuth2AuthenticationException;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
@@ -10,6 +9,7 @@ import org.apache.oltu.oauth2.client.response.OAuthAccessTokenResponse;
 import org.apache.oltu.oauth2.client.response.OAuthResourceResponse;
 import org.apache.oltu.oauth2.common.OAuth;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -18,6 +18,8 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * Created by liuenxi on 2017/12/19.
@@ -29,6 +31,10 @@ public class OAuth2Realm extends AuthorizingRealm {
     private String accessTokenUrl;
     private String userInfoUrl;
     private String redirectUrl;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
@@ -84,7 +90,6 @@ public class OAuth2Realm extends AuthorizingRealm {
                     .setClientSecret(clientSecret)
                     .setCode(code)
                     .setRedirectURI(redirectUrl)
-                    .setParameter("tempSid", TempSid.sid)
                     .buildQueryMessage();
 
             OAuthAccessTokenResponse oAuthResponse = oAuthClient.accessToken(accessTokenRequest, OAuth.HttpMethod.POST);

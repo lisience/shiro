@@ -30,13 +30,7 @@ public class LogoutController {
 
     @RequestMapping("/logout")
     public HttpEntity logout(String testToken, HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        Session session = (Session) redisTemplate.opsForValue().get("qqqqq");
-        Session session1 = (Session) redisTemplate.opsForValue().get(session.getId());
-        redisTemplate.delete("qqqqq");
-        redisTemplate.delete(session1.getId());
-
-        response.sendRedirect("http://b.zuma.com:8083/login.html");
+        response.sendRedirect("http://localhost:8083/login.html");
         return new ResponseEntity("logout success", HttpStatus.OK);
     }
 

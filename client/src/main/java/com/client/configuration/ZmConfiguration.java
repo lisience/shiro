@@ -37,14 +37,15 @@ public class ZmConfiguration {
 
     @Bean(name="shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager") SecurityManager manager, @Qualifier("oAuth2AuthenticationFilter") OAuth2AuthenticationFilter oAuth2AuthenticationFilter) {
-        ShiroFilterFactoryBean bean=new ShiroFilterFactoryBean();
+        ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         bean.setSecurityManager(manager);
         //配置登录的url和登录成功的url
-        bean.setLoginUrl("http://b.zuma.com:8083/user/authorize?client_id=c1ebe466-1cdc-4bd3-ab69-77c3561b9dee&response_type=code&redirect_uri=http://a.zuma.com:8088/oauth2-login");
+        bean.setLoginUrl("http://localhost:8083/user/authorize?client_id=c1ebe466-1cdc-4bd3-ab69-77c3561b9dee&response_type=code&redirect_uri=http://localhost:8088/oauth2-login");
         bean.setSuccessUrl("/");
         Map<String, Filter> filterMap = new LinkedHashMap<>();
         filterMap.put("oauth2Authc", oAuth2AuthenticationFilter);
         bean.setFilters(filterMap);
+
         //配置访问权限
         LinkedHashMap<String, String> filterChainDefinitionMap=new LinkedHashMap<>();
         filterChainDefinitionMap.put("/", "anon");
@@ -102,7 +103,10 @@ public class ZmConfiguration {
     }
     @Bean(name = "redisSessionDao")
     public SessionDAO sessionDAO(){
-        return new RedisSessionDao();
+        RedisSessionDao redisSessionDao = new RedisSessionDao();
+        redisSessionDao.setExpireTime(3600000L);
+        redisSessionDao.setServiceName("client");
+        return redisSessionDao;
     }
 
     @Bean(name = "sessionManager")
@@ -142,9 +146,9 @@ public class ZmConfiguration {
         OAuth2Realm authRealm = new OAuth2Realm();
         authRealm.setClientId("c1ebe466-1cdc-4bd3-ab69-77c3561b9dee");
         authRealm.setClientSecret("d8346ea2-6017-43ed-ad68-19c0f971738b");
-        authRealm.setAccessTokenUrl("http://b.zuma.com:8083/user/accessToken");
-        authRealm.setRedirectUrl("http://a.zuma.com:8088/oauth2-login");
-        authRealm.setUserInfoUrl("http://b.zuma.com:8083/user/userInfo");
+        authRealm.setAccessTokenUrl("http://localhost:8083/user/accessToken");
+        authRealm.setRedirectUrl("http://localhost:8088/oauth2-login");
+        authRealm.setUserInfoUrl("http://localhost:8083/user/userInfo");
 
         authRealm.setCachingEnabled(true);
         authRealm.setAuthenticationCachingEnabled(true);

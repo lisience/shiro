@@ -1,12 +1,14 @@
 package com.client.filter;
 
 import com.client.realm.OAuth2Token;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.util.WebUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -30,6 +32,10 @@ public class OAuth2AuthenticationFilter extends AuthenticatingFilter {
     private String responseType = "code";
 
     private String failureUrl;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 
     public void setAuthcCodeParam(String authcCodeParam) {
         this.authcCodeParam = authcCodeParam;
@@ -66,12 +72,13 @@ public class OAuth2AuthenticationFilter extends AuthenticatingFilter {
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 
-        String uri = ((HttpServletRequest)request).getServletPath();
+        String url = ((HttpServletRequest) request).getRequestURL().toString();
+        String uri = ((HttpServletRequest) request).getServletPath();
         System.out.println(uri);
 
         String error = request.getParameter("error");
         String errorDescription = request.getParameter("error_description");
-        if(!StringUtils.isEmpty(error)) {//如果服务端返回了错误
+        if(StringUtils.isNotBlank(error)) {//如果服务端返回了错误
             WebUtils.issueRedirect(request, response, failureUrl + "?error=" + error + "error_description=" + errorDescription);
             return false;
         }
@@ -82,6 +89,11 @@ public class OAuth2AuthenticationFilter extends AuthenticatingFilter {
             return true;
         }
 
+        String authCode = request.getParameter("code");
+        if(StringUtils.isNotBlank(authCode)){
+            redisTemplate.opsForHash().put(authCode, "sid", subject.getSession(false).getId());
+            redisTemplate.opsForHash().put(authCode, "clientUrl", url.replace(uri, ""));
+        }
 
         if(!subject.isAuthenticated()) {
             if(StringUtils.isEmpty(request.getParameter(authcCodeParam))) {

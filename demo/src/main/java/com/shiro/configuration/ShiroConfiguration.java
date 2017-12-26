@@ -3,57 +3,45 @@ package com.shiro.configuration;
 import com.shiro.dao.RedisSessionDao;
 import com.shiro.realm.AuthRealm;
 import com.shiro.credentials.CredentialsMatcher;
-import com.shiro.filter.TestFilter;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.authc.credential.PasswordService;
 import org.apache.shiro.mgt.RememberMeManager;
 import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
-import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.SessionValidationScheduler;
 import org.apache.shiro.session.mgt.ValidatingSessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionIdGenerator;
-import org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
-import org.apache.shiro.web.filter.authc.LogoutFilter;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.web.servlet.Cookie;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Created by liuenxi on 2017/12/12.
  */
 @Configuration
 @EnableCaching
-public class ShiroConfiguration {
+@MapperScan("com.shiro.dao")
+public class ShiroConfiguration  {
     @Bean(name="shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager") SecurityManager manager) {
         ShiroFilterFactoryBean bean=new ShiroFilterFactoryBean();
         bean.setSecurityManager(manager);
-
-
-        /*Map<String, Filter> filterMap = new LinkedHashMap<>();
-        filterMap.put("logout", logoutFilter);
-        bean.setFilters(filterMap);*/
 
         //配置登录的url和登录成功的url
         bean.setLoginUrl("/login.html");
@@ -100,7 +88,7 @@ public class ShiroConfiguration {
 
     @Bean(name = "sessionIdCookie")
     public Cookie cookie(){
-        SimpleCookie cookie = new SimpleCookie("mldn-session-id");
+        SimpleCookie cookie = new SimpleCookie("nlm-sid");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(-1);
         return cookie;
@@ -118,7 +106,10 @@ public class ShiroConfiguration {
 
     @Bean(name = "redisSessionDao")
     public SessionDAO sessionDAO(){
-        return new RedisSessionDao();
+        RedisSessionDao redisSessionDao = new RedisSessionDao();
+        redisSessionDao.setServiceName("service");
+        redisSessionDao.setPrefix("service:");
+        return redisSessionDao;
     }
 
 

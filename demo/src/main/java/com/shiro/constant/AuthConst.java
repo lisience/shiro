@@ -20,4 +20,8 @@ public interface AuthConst {
 	public static String TOKEN = "token";
 	// 注销请求
 	public static String LOGOUT_REQUEST = "logoutRequest";
+
+	public static String RESOURCE_SERVER_NAME = "";
+
+	public static final String INVALID_CLIENT_DESCRIPTION = "客户端验证失败，如错误的client_id/client_secret。";
 }
